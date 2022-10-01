@@ -1,0 +1,21 @@
+# prob : https://blog.icttoracon.net/2021/09/03/%e6%ad%a2%e3%81%be%e3%82%89%e3%81%aa%e3%81%84/
+
+#cloud-config
+timezone: Asia/Tokyo
+locale: ja_JP.utf8
+package_update: true
+package_upgrade: true
+packages:
+  - man-pages-ja
+  - docker
+
+
+write_files:
+  - content: |
+      run :
+        docker run ubuntu /bin/bash
+    path: /home/Makefile
+  - content: |
+      run :
+        docker run ubuntu /bin/bash
+    path: /home/Makefile
