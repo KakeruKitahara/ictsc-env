@@ -1,0 +1,42 @@
+# prob : https://blog.icttoracon.net/2022/03/04/%e3%82%aa%e3%83%ac%e3%82%aa%e3%83%acdns%ef%bc%81/
+
+#cloud-config
+timezone: Asia/Tokyo
+locale: en_US.UTF-8
+packages:
+  - "bind9"
+  - "bind9utils"
+    # - ["bind9utils", "20.10.2-0ubuntu1~20.04.2"                ]
+package_update: true
+package_upgrade: false
+
+runcmd:
+  - systemctl restart named
+  - sed -ie 's/#DNS=/DNS=127.0.0.1/' /etc/systemd/resolved.conf 
+  - systemctl restart systemd-resolved
+
+write_files:
+  - path: /etc/bind/db.ictsc
+    content: |
+      ;
+      ; BIND data file for local loopback interface
+      ;
+      $TTL	604800
+      @	          IN      SOA     localhost. root.localhost. (
+                  2		; Serial
+             604800		; Refresh
+              86400		; Retry
+            2419200		; Expire
+             604800 )	; Negative Cache TTL
+      ;
+      @           IN      NS      ictsc-dns.ictsc.
+      @  IN      A       127.0.0.1
+      ictsc-dns  IN      A       127.0.0.1
+      test     IN      A      127.0.0.1 
+  - path: /etc/bind/named.conf.default-zones
+    content: |
+      zone "ictsc" {
+        type master;
+        file "/etc/bind/db.ictsc";
+      };
+    append: true
