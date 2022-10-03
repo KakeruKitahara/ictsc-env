@@ -3,11 +3,10 @@
 #cloud-config
 timezone: Asia/Tokyo
 locale: ja_JP.utf8
+packages:
+  - docker
 package_update: true
 package_upgrade: true
-packages:
-  - man-pages-ja
-  - docker
 
 
 write_files:
@@ -16,6 +15,13 @@ write_files:
         docker run ubuntu /bin/bash
     path: /home/Makefile
   - content: |
-      run :
-        docker run ubuntu /bin/bash
-    path: /home/Makefile
+    package main
+
+    import "fmt"
+
+    func main() {
+      for{
+      fmt.Printf("Hello World\n")
+      }
+    }
+  path: /home/hoge.go
