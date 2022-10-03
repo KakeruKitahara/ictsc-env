@@ -3,25 +3,48 @@
 #cloud-config
 timezone: Asia/Tokyo
 locale: ja_JP.utf8
+
+bootcmd:
+  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+
+apt:
+  preserve_sources_list: true
+  sources:
+    docker.list:
+      source: deb [arch=amd64] https://download.docker.com/linux/ubuntu $RELEASE stable
+
 packages:
-  - docker
+  - docker-ce
+  - make
 package_update: true
 package_upgrade: true
 
+runcmd:
+  - usermod -aG docker ubuntu
+  - sudo systemctl start docker
 
 write_files:
   - content: |
       run :
-        docker run ubuntu /bin/bash
-    path: /home/Makefile
+      	docker build -t hoge .
+      	docker run hoge bash -c "go run hoge.go"
+    path: /home/ubuntu/Makefile
   - content: |
-    package main
+      package main
 
-    import "fmt"
+      import ("fmt"
+              "time"
+      )
 
-    func main() {
-      for{
-      fmt.Printf("Hello World\n")
+      func main() {
+        for{
+        time.Sleep(time.Second * 1)
+        fmt.Printf("Hello World\n")
+        }
       }
-    }
-  path: /home/hoge.go
+    path: /home/ubuntu/hoge.go
+  - content: |
+      FROM golang
+      WORKDIR /root
+      COPY hoge.go /root
+    path: /home/ubuntu/Dockerfile
