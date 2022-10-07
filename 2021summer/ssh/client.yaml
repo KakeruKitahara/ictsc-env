@@ -1,0 +1,12 @@
+#cloud-config
+
+timezone: Asia/Tokyo
+locale: en_US.UTF-8
+  - openssh-client
+
+runcmd:
+  - SSHFILE = `find / -name id_rsa 2>/dev/null | head -n 1`
+  - ssh-keygen -f ${SSHFILE} -t rsa -b 1024 -N ""
+  - cat ${SSHFILE}
+
+# prob : https://blog.icttoracon.net/2021/09/03/ssh%e7%b9%8b%e3%81%8c%e3%82%89%e3%81%aa%e3%81%8f%e3%81%aa%e3%81%a3%e3%81%9f/

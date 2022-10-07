@@ -1,6 +1,5 @@
-# prob : https://blog.icttoracon.net/2022/03/04/%e3%82%a2%e3%83%b3%e3%82%a4%e3%83%b3%e3%82%b9%e3%83%88%e3%83%bc%e3%83%ab%e3%81%95%e3%82%8c%e3%81%9f%e3%81%8c%e3%82%89%e3%81%aa%e3%81%84%e5%91%aa%e3%81%84/
-
 #cloud-config
+
 timezone: Asia/Tokyo
 locale: ja_JP.utf8
 packages:
@@ -13,3 +12,4 @@ runcmd:
   - chattr +i /var/lib/apt/lists/lock
   - systemctl restart reboot
 
+# prob : https://blog.icttoracon.net/2022/03/04/%e3%82%a2%e3%83%b3%e3%82%a4%e3%83%b3%e3%82%b9%e3%83%88%e3%83%bc%e3%83%ab%e3%81%95%e3%82%8c%e3%81%9f%e3%81%8c%e3%82%89%e3%81%aa%e3%81%84%e5%91%aa%e3%81%84/

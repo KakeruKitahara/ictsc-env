@@ -1,6 +1,5 @@
-# prob : https://blog.icttoracon.net/2021/09/03/%e6%ad%a2%e3%81%be%e3%82%89%e3%81%aa%e3%81%84/
-
 #cloud-config
+
 timezone: Asia/Tokyo
 locale: ja_JP.utf8
 
@@ -48,3 +47,5 @@ write_files:
       WORKDIR /root
       COPY hoge.go /root
     path: /home/ubuntu/Dockerfile
+
+# prob : https://blog.icttoracon.net/2021/09/03/%e6%ad%a2%e3%81%be%e3%82%89%e3%81%aa%e3%81%84/

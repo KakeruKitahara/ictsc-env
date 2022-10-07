@@ -1,6 +1,5 @@
-# prob : https://blog.icttoracon.net/2022/03/04/%e3%82%aa%e3%83%ac%e3%82%aa%e3%83%acdns%ef%bc%81/
-
 #cloud-config
+
 timezone: Asia/Tokyo
 locale: en_US.UTF-8
 packages:
@@ -40,3 +39,5 @@ write_files:
         file "/etc/bind/db.ictsc";
       };
     append: true
+
+# prob : https://blog.icttoracon.net/2022/03/04/%e3%82%aa%e3%83%ac%e3%82%aa%e3%83%acdns%ef%bc%81/
