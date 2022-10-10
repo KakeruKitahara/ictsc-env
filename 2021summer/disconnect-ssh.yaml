@@ -6,12 +6,13 @@ locale: en_US.UTF-8
   - openssh-server
 
 ssh_authorized_keys:
-  - ssh-rsa # client ssh key
+  - # client ssh key
 
 runcmd:
-  - sed -ie 's/#MaxSessions 10/MaxSessions 0/' /etc/ssh/sshd_config
-  - echo 'DenyUsers ubuntu' >> /etc/ssh/sshd_config
-  # ubuntu : client`s username
+  # sed -ie 's/#MaxSessions 10/MaxSessions 0/' /etc/ssh/sshd_config
+  - echo 'DenyUsers hoge' >> /etc/ssh/sshd_config
+  # hoge : client`s username
+  - sudo reboot
 
 # client
 # ssh-keygen -t rsa -b 1024 -N ""
