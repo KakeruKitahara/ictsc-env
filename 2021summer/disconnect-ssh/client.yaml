@@ -1,0 +1,62 @@
+#cloud-config
+# client
+
+timezone: Asia/Tokyo
+locale: en_US.UTF-8
+  - openssh-clients
+
+user: client
+password: client
+chpasswd: {expire: False}
+
+write_files:
+  - content: |
+      Host <IP addr>
+        HostKeyAlgorithms ssh-dss
+        User server
+    path: /home/client/.ssh/config
+  - content: |
+      ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDW0nQPcdQmVRWSPOk0rRCHfM3s2xs/k2ZAKRQx9F5xFyZyT3tIC2881EgN2B3tX65yEQxn5IsYfmFrKy/gF1Qwh1HIz3+e2gns3HkoNcOohdaT15uwzu7oAWaLBV8ygI9ucLZyI6iAAwZ0wZ+QnbkFKRBl2N1zeu5nj76nHQ0QxCzg6ZAUbanzeh8MzUecY65BaGgPNfYOqOFDyJiWTC7Dk9WeX/q4t01MmJNgASsNVvQlVviROWqNBnUh+PytcSFS56JmaDOpYc3V/Ws40t13VjZ+cn3vv1fS65nZMi3fgsvFrszJbNnQBptK2JDKzcypYeeAJ0txHcPUBWCPvfYwVovE2JfRkky3Dx9cRORX+XFHAIWN/EK1SmBYKXxlfhB7mWao5fEQbzY+wrF72I3M3ZbghKidGrslYMyRL+aG5eLN21fv4ewNV7oWxN/Tscd98NqkiNJkbU0PNu45R4Kqh9XnRAIj9V9sDwmWf42OfNel0pIKw0KKyARNizql3P0=
+    path: /home/client/.ssh/id_rsa.pub
+  - content: |
+      -----BEGIN OPENSSH PRIVATE KEY-----
+      b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAABlwAAAAdzc2gtcn
+      NhAAAAAwEAAQAAAYEA1tJ0D3HUJlUVkjzpNK0Qh3zN7NsbP5NmQCkUMfRecRcmck97SAtv
+      PNRIDdgd7V+uchEMZ+SLGH5haysv4BdUMIdRyM9/ntoJ7Nx5KDXDqIXWk9ebsM7u6AFmiw
+      VfMoCPbnC2ciOogAMGdMGfkJ25BSkQZdjdc3ruZ4++px0NEMQs4OmQFG2p83ofDM1HnGOu
+      QWhoDzX2DqjhQ8iYlkwuw5PVnl/6uLdNTJiTYAErDVb0JVb4kTlqjQZ1Ifj8rXEhUueiZm
+      gzqWHN1f1rONLdd1Y2fnJ9779X0uuZ2TIt34LLxa7MyWzZ0AabStiQys3MqWHngCdLcR3D
+      1AVgj732MFaLxNiX0ZJMtw8fXETkV/lxRwCFjfxCtUpgWCl8ZX4Qe5lmqOXxEG82PsKxe9
+      iNzN2W4ISonRq7JWDMkS/mhuXizdtX7+HsDVe6FsTf07HHffDapIjSZG1NDzbuOUeCqofV
+      50QCI/VfbA8Jln+NjnzXpdKSCsNCisgETYs6pdz9AAAFeLdO1mu3TtZrAAAAB3NzaC1yc2
+      EAAAGBANbSdA9x1CZVFZI86TStEId8zezbGz+TZkApFDH0XnEXJnJPe0gLbzzUSA3YHe1f
+      rnIRDGfkixh+YWsrL+AXVDCHUcjPf57aCezceSg1w6iF1pPXm7DO7ugBZosFXzKAj25wtn
+      IjqIADBnTBn5CduQUpEGXY3XN67mePvqcdDRDELODpkBRtqfN6HwzNR5xjrkFoaA819g6o
+      4UPImJZMLsOT1Z5f+ri3TUyYk2ABKw1W9CVW+JE5ao0GdSH4/K1xIVLnomZoM6lhzdX9az
+      jS3XdWNn5yfe+/V9LrmdkyLd+Cy8WuzMls2dAGm0rYkMrNzKlh54AnS3Edw9QFYI+99jBW
+      i8TYl9GSTLcPH1xE5Ff5cUcAhY38QrVKYFgpfGV+EHuZZqjl8RBvNj7CsXvYjczdluCEqJ
+      0auyVgzJEv5obl4s3bV+/h7A1XuhbE39Oxx33w2qSI0mRtTQ827jlHgqqH1edEAiP1X2wP
+      CZZ/jY5816XSkgrDQorIBE2LOqXc/QAAAAMBAAEAAAGAWNwjAASA0f5d9ujVOmHgNXstny
+      0e/1RUdnPHk8ZWjocZ8yznfOyl7c6No5RjBL6QZUSiEhOaad5VI8RwgEyGGbDP5rXWP3pH
+      or+sKjLbJUl/chY8o41li3iQ1y64qyY8rl1XSq1vVMxrjj5NZ7+mOfk7fDWRnOQb26C9J1
+      k//1B2k+5pF9oo87rvPxdm6Mze1tV+PdR/XJ8E10oRvBH1QhdTxLhE+MVx5x4x0AOLsG/o
+      e82W8lOCvKUQLKZWttPVR3cyQ7Y8tigKeilDQaTukuMgGdIK0mGicSWWobPx6Un6nbHso6
+      3Xxf3+tJWeE3MlAOPoBb7eRQ+4xYiuFmfgE7JGAoMM43Ps1vo0uKeit81SgQSZ3BwDW071
+      YEFLxDaolVVappaTX7HNQSVqX08oFNTU0idIgKbXv1Fe9K2iHQ3JQ6AnvX2SkpXKce84r5
+      aSG7UxXY/Kx1tRFnya8dX7nlUC/zcg6wx0SlzrQAFR9xTj7j8LVJFHftUebw0xAplhAAAA
+      wE/iFufTS13b8sJMpbrJFyKEb6hyoR1oKRyYexdlgxoF3PPGhIEo8+HSKeYvxHX/BKgB9h
+      wqvNFLkwSBo4WarhNIAz/Z6+JVOmwf9BVgFpijmmzKTet8iRCETzXK7N1HzsXE0BwhNsJh
+      tzUQY+ZOMD/07gW87Vsktzpr31HrAT3QSE9xYqETEO4n5CWsk4+U3KlKnLjQcL3/H6B/rT
+      sNVXurOUCxFWzQ21e2fPBVra71WLERenNN0LbgDQi1aWkzlAAAAMEA/AyYMWFcEgKGPwnN
+      wo87OHcDgyfqpb1bc+pah28tqEvs8rQQ0UtHYv7TPE66ddVBe7Pcgpw8NdXQWCvBiaocFB
+      IrqFXDDHrugBu84xXvOO5v7/cSor61ce8//vRmUHY1GJ3E3mb50iFNllyrH38ajkxm0G/w
+      9fzXq6xbHnhHuAtZSsyCq6EkwV3C4xQM+8F323a+TPGSS23EzSov0382IeUQJh5ANsmE3h
+      PjhZ0mYsyIsHVWifhN7ITVjNqWtIU5AAAAwQDaMHn6xn25fk32RnxuEzTHpv4NVhJARHC+
+      YevMsJ5Gwlcbdifh2/EbSAvfnusDIfU8iPzuukRGjAx6WpB666p7bxcsQxNC41UVdtH2hZ
+      GHCGo0jHxwx7j+BRTamAsCfUcRwHNbyhG15x5L7D9yzPxox59fL9xg7jIjFtmNHYaNDaRA
+      a/Dt91PU0348LvZOHEg/UaLC4BVzNa0gcZqrUIZJTX7vxKZ0PHOzBBOJ7vQZe7ffdLGYkL
+      7/bcUIXl6JOeUAAAAAAQID
+      -----END OPENSSH PRIVATE KEY-----
+    path: /home/client/.ssh/id_rsa
+
+  # prob : https://blog.icttoracon.net/2021/09/03/ssh%e7%b9%8b%e3%81%8c%e3%82%89%e3%81%aa%e3%81%8f%e3%81%aa%e3%81%a3%e3%81%9f/
