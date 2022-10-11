@@ -5,8 +5,6 @@ locale: en_US.UTF-8
 package_update: true
 
 runcmd:
-  #- sudo apt install -y mariadb-server
-  - echo '##########################'
   - export HOME=/ictsc
   - wget https://go.dev/dl/go1.19.2.linux-amd64.tar.gz -nv
   - tar -C /usr/local -xzf go1.19.2.linux-amd64.tar.gz
@@ -24,9 +22,11 @@ runcmd:
     mariadb -u ictsc -ppassword <<EOSQL
     create database ictsc;
     use ictsc;
-    create table ictsc (id int auto_increment primary key, value text);
-    load data local infile '/tmp/uuid.csv' into table ictsc.ictsc lines terminated by '\n' (@value) set value=@value;
+    create table ictsc (id int auto_increment primary key, value text, category int);
+    load data local infile '/tmp/uuid.csv' into table ictsc.ictsc fields terminated by ',' lines terminated by '\n' (@value, @category) set value=@value, category=@category;
     EOSQL
+
+  - apt install -y apache2 php php-pdo php-mysql
 
 write_files:
   - path: /ictsc/gen-uuid.go
@@ -44,9 +44,9 @@ write_files:
         if err != nil {
           os.Exit(1)
         }
-        for i := 0; i < 2000000; i++ {
+        for i := 0; i < 10000000; i++ {
           uuid, _ := uuid.NewUUID()
-          fmt.Fprintln(fp, uuid)
+          fmt.Fprintf(fp, "%s, %d\n", uuid, (i%5)+1)
         }
       }
   - path: /ictsc/go.mod
@@ -60,3 +60,15 @@ write_files:
     content: |
       github.com/google/uuid v1.3.0 h1:t6JiXgmwXMjEs8VusXIJk2BXHsn+wx8BZdTaoZ5fu7I=
       github.com/google/uuid v1.3.0/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo=
+  - path: /var/www/html/index.php
+    content: |
+      <?php
+        $pdo = new PDO("mysql:dbname=ictsc;host=localhost", "ictsc", "password");
+
+        $time_start = microtime(true);
+        $statement = $pdo->query("select count(*) from ictsc where category = 5");
+        $res = $statement->fetch(PDO::FETCH_BOTH);
+
+        $time_duration = microtime(true) - $time_start;
+        printf("件数:%d処理時間%.12f\n", $res[0], $time_duration);
+      ?>
