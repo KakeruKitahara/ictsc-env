@@ -1,0 +1,22 @@
+#cloud-config
+# server
+
+timezone: Asia/Tokyo
+locale: en_US.UTF-8
+  - openssh-server
+
+user: server
+password: server
+chpasswd: {expire: False}
+ssh_pwauth: True
+ssh_authorized_keys:
+  - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDW0nQPcdQmVRWSPOk0rRCHfM3s2xs/k2ZAKRQx9F5xFyZyT3tIC2881EgN2B3tX65yEQxn5IsYfmFrKy/gF1Qwh1HIz3+e2gns3HkoNcOohdaT15uwzu7oAWaLBV8ygI9ucLZyI6iAAwZ0wZ+QnbkFKRBl2N1zeu5nj76nHQ0QxCzg6ZAUbanzeh8MzUecY65BaGgPNfYOqOFDyJiWTC7Dk9WeX/q4t01MmJNgASsNVvQlVviROWqNBnUh+PytcSFS56JmaDOpYc3V/Ws40t13VjZ+cn3vv1fS65nZMi3fgsvFrszJbNnQBptK2JDKzcypYeeAJ0txHcPUBWCPvfYwVovE2JfRkky3Dx9cRORX+XFHAIWN/EK1SmBYKXxlfhB7mWao5fEQbzY+wrF72I3M3ZbghKidGrslYMyRL+aG5eLN21fv4ewNV7oWxN/Tscd98NqkiNJkbU0PNu45R4Kqh9XnRAIj9V9sDwmWf42OfNel0pIKw0KKyARNizql3P0=
+
+runcmd:
+  - chmod 666 /etc/ssh/sshd_config
+  - echo 'DenyUsers server' >> /etc/ssh/sshd_config
+  - sed -ie 's/#MaxSessions 10/MaxSessions 0/' /etc/ssh/sshd_config
+  - systemctl restart sshd.service
+
+# prob : https://blog.icttoracon.net/2021/09/03/ssh%e7%b9%8b%e3%81%8c%e3%82%89%e3%81%aa%e3%81%8f%e3%81%aa%e3%81%a3%e3%81%9f/
+

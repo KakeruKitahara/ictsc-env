@@ -3,6 +3,10 @@
 timezone: Asia/Tokyo
 locale: ja_JP.utf8
 
+user: user
+password: user
+chpasswd: {expire: False}
+
 bootcmd:
   - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
 
@@ -19,7 +23,7 @@ package_update: true
 package_upgrade: true
 
 runcmd:
-  - usermod -aG docker ubuntu
+  - usermod -aG docker user
   - sudo systemctl start docker
 
 write_files:
@@ -27,7 +31,7 @@ write_files:
       run :
       	docker build -t hoge .
       	docker run hoge bash -c "go run hoge.go"
-    path: /home/ubuntu/Makefile
+    path: /home/user/Makefile
   - content: |
       package main
 
@@ -41,11 +45,11 @@ write_files:
         fmt.Printf("Hello World\n")
         }
       }
-    path: /home/ubuntu/hoge.go
+    path: /home/user/hoge.go
   - content: |
       FROM golang
       WORKDIR /root
       COPY hoge.go /root
-    path: /home/ubuntu/Dockerfile
+    path: /home/user/Dockerfile
 
 # prob : https://blog.icttoracon.net/2021/09/03/%e6%ad%a2%e3%81%be%e3%82%89%e3%81%aa%e3%81%84/
