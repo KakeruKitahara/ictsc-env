@@ -1,4 +1,4 @@
-## ICTSC 練習用 cloud-init
+# ICTSC 練習用 cloud-init
 
 ICTSC の過去問の環境を再現できる cloud-init です。  
 1 問につき 1 つの yaml ファイルを作成しています。
