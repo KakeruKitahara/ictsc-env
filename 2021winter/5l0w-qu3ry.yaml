@@ -1,0 +1,62 @@
+#cloud-config
+
+timezone: Asia/Tokyo
+locale: en_US.UTF-8
+package_update: true
+
+runcmd:
+  #- sudo apt install -y mariadb-server
+  - echo '##########################'
+  - export HOME=/ictsc
+  - wget https://go.dev/dl/go1.19.2.linux-amd64.tar.gz -nv
+  - tar -C /usr/local -xzf go1.19.2.linux-amd64.tar.gz
+  - export PATH=$PATH:/usr/local/go/bin
+  - cd /ictsc
+  - go run gen-uuid.go
+
+  - apt install -y mariadb-server
+  - |
+    mariadb <<EOSQL
+    create user ictsc@localhost identified by 'password';
+    grant all on *.* to ictsc@localhost;
+    EOSQL
+  - |
+    mariadb -u ictsc -ppassword <<EOSQL
+    create database ictsc;
+    use ictsc;
+    create table ictsc (id int auto_increment primary key, value text);
+    load data local infile '/tmp/uuid.csv' into table ictsc.ictsc lines terminated by '\n' (@value) set value=@value;
+    EOSQL
+
+write_files:
+  - path: /ictsc/gen-uuid.go
+    content: |
+      package main
+      import (
+        "fmt"
+        "os"
+
+        "github.com/google/uuid"
+      )
+      func main() {
+        fp, err := os.OpenFile("/tmp/uuid.csv", os.O_CREATE|os.O_RDWR, 0644)
+        defer fp.Close()
+        if err != nil {
+          os.Exit(1)
+        }
+        for i := 0; i < 2000000; i++ {
+          uuid, _ := uuid.NewUUID()
+          fmt.Fprintln(fp, uuid)
+        }
+      }
+  - path: /ictsc/go.mod
+    content: |
+      module gen-uuid
+
+      go 1.18
+
+      require github.com/google/uuid v1.3.0
+  - path: /ictsc/go.sum
+    content: |
+      github.com/google/uuid v1.3.0 h1:t6JiXgmwXMjEs8VusXIJk2BXHsn+wx8BZdTaoZ5fu7I=
+      github.com/google/uuid v1.3.0/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo=
